@@ -1,0 +1,60 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>path</th>
+      <!-- <th>item</th> -->
+      <th><%= req.old_url %></th>
+      <th><%= req.new_url %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (var i in paths) {  %>
+      <tr>
+        <td><%= paths[i].path %></td>
+        <% if (paths[i].kind == 'dir') { %>
+          <td><% if (paths[i].item == 'deleted') { %>deleted<% } %></td>
+          <td><% if (paths[i].item == 'added') { %>added<% } %></td>
+        <% } else if (paths[i].kind == 'image') { %>
+          <td>
+            <% if (paths[i].item == 'deleted' || paths[i].item == 'modified') { %>
+              <img src="<%= old_url + paths[i].path %>" />
+            <% } else { %>
+              added
+            <% } %>
+          </td>
+          <td>
+            <% if (paths[i].item == 'added' || paths[i].item == 'modified') { %>
+              <img src="<%= new_url + paths[i].path %>" />
+            <% } else { %>
+             deleted 
+            <% } %>
+          </td>
+        <% } else if (paths[i].kind == 'swf') { %>
+          <td>
+            <% if (paths[i].item == 'deleted' || paths[i].item == 'modified') { %>
+              <div id="<%= 'old_' + i %>">swf</div>
+              <script type="text/javascript">
+                swfobject.embedSWF("<%= old_url + paths[i].path %>", "<%= 'old_' + i %>", "100", "100", "9.0.0");
+              </script>
+            <% } else { %>
+              added
+            <% } %>
+          </td>
+          <td>
+            <% if (paths[i].item == 'added' || paths[i].item == 'modified') { %>
+              <div id="<%= 'new_' + i %>">swf</div>
+              <script type="text/javascript">
+                swfobject.embedSWF("<%= new_url + paths[i].path %>", "<%= 'new_' + i %>", "100", "100", "9.0.0");
+              </script>
+            <% } else { %>
+             deleted 
+            <% } %>
+          </td>
+        <% } else { %>
+          <td><%= paths[i].item %></td>
+          <td><%= paths[i].item %></td>
+        <% }  %>
+      </tr>
+    <% }  %>
+  </tbody>
+</table>
