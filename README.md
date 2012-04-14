@@ -1,10 +1,10 @@
 # svndiffer 
 
-svnの異なるリビジョンやブランチ間で画像とswfの更新を見れるツール
+svnの異なるリビジョンやブランチ間で画像とswfの更新を見れるwebアプリ
 
 ## 起動
 
-  $ node app.js -U <svn username> -P <svn passward> -R <repository url> 
+  $ node app.js -U "svn username" -P "svn passward" -R "repository url"
 
 ## TODO
 
