@@ -1,0 +1,9 @@
+.added {
+  background-color: #CFC;
+}
+.deleted {
+  background-color: #FCC;
+}
+.modified {
+  background-color: #CCF;
+}

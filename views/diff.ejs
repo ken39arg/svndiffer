@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <% for (var i in paths) {  %>
-      <tr>
+      <tr class="<%= paths[i].item %>">
         <td><%= paths[i].path %></td>
         <% if (paths[i].kind == 'dir') { %>
           <td><% if (paths[i].item == 'deleted') { %>deleted<% } %></td>
