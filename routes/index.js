@@ -20,10 +20,24 @@ exports.diff = function(req, res){
     repository: req.query.repos    || config.repository,
   }); 
 
-  svndiffer.getSummary(req.query.old_url, req.query.new_url, function (r) {
-    r.title = 'diff';
-    r.req   = req.body;
-    r.repository = svndiffer.repository;
-    res.render('diff', r)
+  var key = svndiffer.repository + ":" + req.query.old_url + ":" + req.query.new_url;
+
+  config.memcache.client.get(key, function(error, data) {
+    if (error || !data) {
+      console.log("memcache error: " + error);
+      svndiffer.getSummary(req.query.old_url, req.query.new_url, function (r) {
+        r.title = 'diff';
+        r.req   = req.query;
+        r.repository = svndiffer.repository;
+
+        config.memcache.client.set(key, JSON.stringify(r), function(error, result){
+          res.render('diff', r);
+        }, 3600);
+      });
+    } else {
+      console.log("memcache get");
+      res.render('diff', JSON.parse(data));
+    }
   });
+
 };
