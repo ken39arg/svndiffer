@@ -59,11 +59,15 @@ config.memcache.host = opts.get('memcached.host') || config.memcache.host;
 config.memcache.port = opts.get('memcached.port') || config.memcache.port;
 config.memcache.client = new memcache.Client(config.memcache.port, config.memcache.host);
 
+config.memcache.client.is_connected = 0;
+
 config.memcache.client.on('connect', function() {
+  config.memcache.client.is_connected = 1;
   console.log("memcache connect " + config.memcache.client.host + ":" + config.memcache.client.port);
 });
 
 config.memcache.client.on('close', function() {
+  config.memcache.client.is_connected = 0;
   console.log("memcache close " + config.memcache.client.host + ":" + config.memcache.client.port);
 });
 
@@ -75,7 +79,7 @@ config.memcache.client.on('error', function() {
   console.log("memcache error " + config.memcache.client.host + ":" + config.memcache.client.port);
 });
 
-config.memcache.client.connect();
+//config.memcache.client.connect();
 
 var app = module.exports = express.createServer();
 var port = opts.get("port") || 3000;

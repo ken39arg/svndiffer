@@ -14,6 +14,10 @@ exports.index = function(req, res){
 
 exports.diff = function(req, res){
 
+  if (!config.memcache.client.is_connected) {
+    config.memcache.client.connect();
+  }
+
   var svndiffer = new SVNDiffer({
     username:   req.query.username || config.username,
     password:   req.query.password || config.password,
